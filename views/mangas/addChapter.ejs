@@ -1,0 +1,17 @@
+<form action="/mangas/<%= manga.id%>" method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="title">Chapter Title</label>
+        <input type="text" name="title" id="title" required>
+    </div>
+    <div id="upload-container">
+        <div class="upload-file">
+            <input type="file" id="images" name="images" value="" required>
+            <button type="button" onclick="deletePageField(event)">Remove Page</button>
+        </div>
+    </div>
+    <div>
+        <button type="button" onclick="addPageField()">Add New Page</button>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+<script src="/scripts/manga/addChapterPage.js"></script>

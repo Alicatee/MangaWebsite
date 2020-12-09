@@ -1,0 +1,20 @@
+<div>
+    <img  class="imgBIG" src="data:image/<%=manga.cover.contentType%>;base64,
+ <%=manga.cover.data.toString('base64')%>">
+</div>
+    <div>
+        <h2><%= manga.title%></h2>
+    </div>
+    <div>
+        <h2><%= manga.desc%></h2>
+    </div>
+
+    <div>
+        <h2 style="display: inline-block;">Chapters:</h2>
+        <a href="/mangas/<%= manga._id %>/add">Add Chapter</a>
+    </div>
+<% mangaChapters.forEach(chapter => { %>
+    <div>
+        <h2><a href=""><%= chapter.title %></a></h2>
+    </div>
+ <%})%>
