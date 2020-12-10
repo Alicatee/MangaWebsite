@@ -16,6 +16,6 @@
     </div>
 <% mangaChapters.forEach(chapter => { %>
     <div>
-        <h2><a href="/mangas/<%=manga._id%>/<%=getChapterName(chapter.title)%>"><%=getChapterName(chapter.title) %></a></h2>
+        <h2><a href="/mangas/<%=manga._id%>/<%=chapter.title%>"><%=`Chapter: ${chapter.chapNumber}`%></a></h2>
     </div>
  <%})%>

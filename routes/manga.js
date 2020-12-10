@@ -129,10 +129,20 @@ router.post('/:id',(req,res) => {
         }
         const files = req.files
         try {
-            const chapterTitle = getChapterName(req.body.title)
+            const lastChapter = await MangaChapter.findOne({manga: req.params.id}).sort({createdAt: 'desc'}).limit(1).exec()
+            let chapterNumber;
+            if(lastChapter){
+                 chapterNumber = lastChapter.chapNumber + 1
+            }else{
+                chapterNumber = 1
+            }
+            const chapterTitle = `chapter-${chapterNumber}`
             const chapter =  await MangaChapter.create({
+            //    title: `Chapter: ${chapterNumber}`,
                 title: chapterTitle,
-                manga: req.params.id
+                subTitle: req.body.title,
+                manga: req.params.id,
+                chapNumber: chapterNumber
             }) 
            
             for(const file of files){
