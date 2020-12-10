@@ -55,7 +55,7 @@ router.get('/:id',async(req,res) => {
     try {
         const manga = await Manga.findOne({_id: req.params.id})
         const mangaChapters = await MangaChapter.find({manga: req.params.id})
-        res.render('mangas/show',{
+        res.render('mangas/showManga',{
            manga,
            mangaChapters
         })
@@ -63,6 +63,8 @@ router.get('/:id',async(req,res) => {
         console.log(error)
     }
 })
+
+
 
 // @desc Add Chapter page
 // @route GET /manga/:id/add 
@@ -74,6 +76,21 @@ router.get('/:id/add',async(req,res) => {
        })
    } catch (error) {
        console.log(error)
+   }
+})
+
+//@desc Chapter Page
+// @route GET /manga/:mangaID/chapterName
+router.get('/:mangaID/:chapterName',async(req,res) => {
+   try {
+       const chapter = await MangaChapter.findOne({manga: req.params.mangaID,title: req.params.chapterName})
+       const pages = await MangaPage.find({chapter: chapter._id})
+       res.render('mangas/showChapter',{
+           chapter,
+           pages
+       })
+   } catch (error) {
+       
    }
 })
 
@@ -112,8 +129,9 @@ router.post('/:id',(req,res) => {
         }
         const files = req.files
         try {
+            const chapterTitle = getChapterName(req.body.title)
             const chapter =  await MangaChapter.create({
-                title: req.body.title,
+                title: chapterTitle,
                 manga: req.params.id
             }) 
            
@@ -140,7 +158,10 @@ router.post('/:id',(req,res) => {
 })
 
 
-
+getChapterName = function(str) {
+    str = str.split(' ').filter( i => i ).join(' ').replace(/ /g, '-')   
+    return str
+ }
 
 
 module.exports = router

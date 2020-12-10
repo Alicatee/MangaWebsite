@@ -6,6 +6,7 @@ const expressLayouts = require('express-ejs-layouts')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 
+
 dotenv.config({path: ('./config/config.env')})
 
 mongoose.connect(process.env.MONGO_URL,{
@@ -19,6 +20,7 @@ app.use(express.static('public'))
 app.set('view engine','ejs')
 app.set('layout','layouts/main')
 app.use(expressLayouts)
+
 
 
 app.use(express.urlencoded({extended: false}))
