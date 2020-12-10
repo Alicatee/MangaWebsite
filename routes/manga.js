@@ -19,7 +19,19 @@ const storage = multer.diskStorage({
         cb(null,file.fieldname + '-' + Date.now())
     }
 })
-const upload = multer({storage: storage}).array("images")
+const maxSize = 10 * 1024 * 1024; 
+
+const upload = multer({
+    storage: storage,
+    limits: {fileSize: maxSize},
+    fileFilter: function (req, file, cb) {
+        if (file.mimetype !== 'image/png' && file.mimetype !== 'image/png') {
+            req.fileValidationError = 'Invalid Image Type';
+          return cb(null, false, new Error('Invalid Image Type'));
+        }
+        cb(null, true);
+      }   
+}).array("images")
 
 
 // @desc Index Manga page
@@ -99,9 +111,11 @@ router.get('/:mangaID/:chapterName',async(req,res) => {
 router.post('/',(req,res) => {
     upload(req,res,async function(err){
         if(err){
-            return console.log(err)
+            return res.end('Image too Large')
         }
-
+        if(req.fileValidationError) {
+            return res.end(req.fileValidationError);
+      }
         const file = req.files[0]
             const obj = {
                 title: req.body.title,
@@ -125,8 +139,11 @@ router.post('/',(req,res) => {
 router.post('/:id',(req,res) => {
     upload(req,res,async function(err){
         if(err){
-            return console.log(err)
+            return res.end('Image too Large')
         }
+        if(req.fileValidationError) {
+            return res.end(req.fileValidationError);
+      }
         const files = req.files
         try {
             const lastChapter = await MangaChapter.findOne({manga: req.params.id}).sort({createdAt: 'desc'}).limit(1).exec()
