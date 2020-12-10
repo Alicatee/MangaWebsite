@@ -25,8 +25,8 @@ const upload = multer({
     storage: storage,
     limits: {fileSize: maxSize},
     fileFilter: function (req, file, cb) {
-        console.log(file.mimetype)
         if (file.mimetype !== 'image/png' && file.mimetype !== 'image/png') {
+            console.log(file.mimetype)
             req.fileValidationError = 'Invalid Image Type';
           return cb(null, false, new Error('Invalid Image Type'));
         }
