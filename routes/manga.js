@@ -111,9 +111,11 @@ router.get('/:mangaID/:chapterName',async(req,res) => {
 router.post('/',(req,res) => {
     upload(req,res,async function(err){
         if(err){
+            console.log('invalid image')
             return res.end('Image too Large')
         }
         if(req.fileValidationError) {
+            console.log('invalid image')
             return res.end(req.fileValidationError);
       }
         const file = req.files[0]
