@@ -25,10 +25,8 @@ const upload = multer({
     storage: storage,
     limits: {fileSize: maxSize},
     fileFilter: function (req, file, cb) {
-        if (file.mimetype !== 'image/png' && file.mimetype !== 'image/png') {
-            console.log(file.mimetype)
-            req.fileValidationError = 'Invalid Image Type';
-          return cb(null, false, new Error('Invalid Image Type'));
+        if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpg') {
+          return cb(new Error('Invalid Image Type'),false);
         }
         cb(null, true);
       }   
@@ -112,13 +110,8 @@ router.get('/:mangaID/:chapterName',async(req,res) => {
 router.post('/',(req,res) => {
     upload(req,res,async function(err){
         if(err){
-            console.log('invalid image')
-            return res.end('Image too Large')
+            return res.end(err.toString())
         }
-        if(req.fileValidationError) {
-            console.log('invalid image')
-            return res.end(req.fileValidationError);
-      }
         const file = req.files[0]
             const obj = {
                 title: req.body.title,
