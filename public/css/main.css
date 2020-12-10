@@ -1,4 +1,12 @@
-
 .imgBIG{
     width: 200px;
+}
+
+
+
+.mangaPage{
+    width: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

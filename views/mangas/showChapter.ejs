@@ -1,6 +1,4 @@
 <% pages.forEach(page => { %>
-    <div>
-        <img  class="imgBIG" src="data:image/<%=page.contentType%>;base64,
-     <%=page.img.data.toString('base64')%>">
-    </div>
+            <img  class="mangaPage" src="data:image/<%=page.contentType%>;base64,
+         <%=page.img.data.toString('base64')%>">
  <%})%>

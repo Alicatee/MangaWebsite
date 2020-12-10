@@ -90,7 +90,7 @@ router.get('/:mangaID/:chapterName',async(req,res) => {
            pages
        })
    } catch (error) {
-       
+       res.redirect(`/mangas/${req.params.mangaID}`)
    }
 })
 
