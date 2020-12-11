@@ -1,7 +1,7 @@
 <div>
     <% mangas.forEach(manga => { %>
-        <a href="/mangas/<%= manga._id%>"><img class="imgBIG" src="data:image/<%=manga.cover.contentType%>;base64,
-            <%=manga.cover.data.toString('base64')%>"></a> 
+        <a href="/mangas/<%= manga._id%>"><img class="imgBIG" src="data:image/<%=manga.image.contentType%>;base64,
+            <%=manga.image.data.toString('base64')%>"></a> 
      <%})%>
 </div>
 <div>

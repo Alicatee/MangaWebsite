@@ -9,7 +9,7 @@ const mangaSchema = new mongoose.Schema({
     desc: {
         type: String,
     },
-    cover: {
+    image: {
         data: Buffer,
         contentType: String
     }

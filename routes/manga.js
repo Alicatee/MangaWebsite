@@ -17,18 +17,22 @@ const storage = multer.diskStorage({
     },
     filename: (req,file,cb) => {
         cb(null,file.fieldname + '-' + Date.now())
-    }
+    }   
 })
-const maxSize = 10 * 1024 * 1024; 
 
 const upload = multer({
     storage: storage,
-    limits: {fileSize: maxSize},
+   limits: {fileSize: 5 * 1024 * 1024},
     fileFilter: function (req, file, cb) {
-        if (file.mimetype !== 'image/png' && file.mimetype !== 'image/jpg') {
-          return cb(new Error('Invalid Image Type'),false);
+        if (
+            file.mimetype === "image/png" ||
+            file.mimetype === "image/jpg" ||
+            file.mimetype === "image/jpeg"
+          ) {
+            cb(null, true); 
+        }else{
+            cb('Invalid Image Type',false);
         }
-        cb(null, true);
       }   
 }).array("images")
 
@@ -53,7 +57,8 @@ router.get('/add',async(req,res) => {
     try {
         const pages = await MangaPage.find({})
         res.render('mangas/addManga',{
-           pages
+           pages,
+           manga: new Manga()
         })
     } catch (error) {
         console.log(error)
@@ -108,24 +113,33 @@ router.get('/:mangaID/:chapterName',async(req,res) => {
 // @desc Post Manga
 // @route POST /manga
 router.post('/',(req,res) => {
-    upload(req,res,async function(err){
+    upload(req,res,async(err) => {
         if(err){
-            return res.end(err.toString())
+           return res.render('mangas/addManga',{
+                errorMessage: err,
+                manga: req.body
+            })
         }
-        const file = req.files[0]
-            const obj = {
-                title: req.body.title,
-                desc: req.body.desc,
-                cover: {
-                    data: fs.readFileSync(path.join(__dirname,'../uploads/' + file.filename)),
-                    contentType: 'image/png'
+        try {
+            const img = fs.readFileSync(req.files[0].path);
+            const encode_image = img.toString('base64');
+                const dataObj = {
+                    title: req.body.title,
+                    desc: req.body.desc,
+                    image: {
+                        data:  Buffer.from(encode_image, 'base64'),
+                        contentType: req.files[0].mimetype,
+                    }
                 }
-            }
-           const manga = await Manga.create(obj)
-           fs.unlink(path.join(__dirname,'../uploads/' + file.filename),err => {
-               console.log(err)
-           })
-        res.redirect(`mangas/${manga._id}`)
+               const manga = await Manga.create(dataObj)
+               console.log(req.files[0].path)
+               fs.unlink((req.files[0].path),err => {
+                   console.log(err)
+               })
+            res.redirect(`mangas/${manga._id}`)
+        } catch (error) {
+            console.log(error)
+        }
     })
 })
 
@@ -134,12 +148,18 @@ router.post('/',(req,res) => {
 // @route POST /manga/:id
 router.post('/:id',(req,res) => {
     upload(req,res,async function(err){
-        if(err){
-            return res.end('Image too Large')
+        try {
+            const manga = await Manga.findById(req.params.id)
+            if(err){
+                return res.render('mangas/addChapter',{
+                    manga,
+                    errorMessage: err,
+                })
+            }
+        } catch (error) {
+            res.redirect('/')
         }
-        if(req.fileValidationError) {
-            return res.end(req.fileValidationError);
-      }
+       
         const files = req.files
         try {
             const lastChapter = await MangaChapter.findOne({manga: req.params.id}).sort({createdAt: 'desc'}).limit(1).exec()
@@ -159,16 +179,19 @@ router.post('/:id',(req,res) => {
             }) 
            
             for(const file of files){
-                const obj = {
+                const img = fs.readFileSync(file.path);
+                const encode_image = img.toString('base64');
+
+                const dataObj = {
                     chapter: chapter._id,
-                    img: {
-                        data: fs.readFileSync(path.join(__dirname,'../uploads/' + file.filename)),
-                        contentType: 'image/png'
-                    },
+                    image: {
+                        data:  Buffer.from(encode_image, 'base64'),
+                        contentType: req.files[0].mimetype,
+                    }
                 }
-              await MangaPage.create(obj)
+              await MangaPage.create(dataObj)
           
-               fs.unlink(path.join(__dirname,'../uploads/' + file.filename),err => {
+               fs.unlink((file.path),err => {
                    console.log(err)
                })
             }

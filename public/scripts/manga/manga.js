@@ -17,3 +17,13 @@ function deletePageField(event){
     }
     input.parentNode.remove()
 }
+
+function validateSize(event){
+    const filesInput = document.querySelectorAll('.images')
+    const maxSize = 10 * 1024 * 1024 // 10mb
+    filesInput.forEach(file => {
+        if (file.files[0].size > maxSize){
+            return event.preventDefault()
+        }
+    })
+}
