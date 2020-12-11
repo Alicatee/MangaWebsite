@@ -1,7 +1,7 @@
 <form action="/mangas" method="POST" onsubmit="validateSize(event)" enctype="multipart/form-data">
     <div>
         <label for="title">Manga Title</label>
-        <input type="text" name="title" id="title"  value="<%= manga.title %>" required>
+        <input type="text" name="title" id="title"  value="<%= manga.title %>" accept="image/*" required>
     </div>
     <div>
         <textarea type="text" name="desc"  value="<%= manga.desc %>"  id="desc">Description</textarea>
