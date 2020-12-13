@@ -1,18 +1,21 @@
 <% include ('../../helpers/functions.ejs') %>
 <% mangaCoverClass = locals.large ? 'manga-cover-large' : '' %>
-<% mangaMarginLarge = locals.large ? 'manga-margin-large' : '' %>
+<% bookGridClass = locals.large ? 'manga-grid-large' : '' %>
 
-    <% mangas.forEach(manga => { %>
-        <div class="manga-container <%= mangaMarginLarge %>">
-            <div class="manga-image">
+<div class="manga-grid <%= bookGridClass %>">
+<% mangas.forEach(manga => { %>
+    <div class="manga-container">
+        <div class="manga-info">
+            <div class="manga-info-image">
                 <a href="/mangas/<%= manga.id %>">
                     <img  class="manga-cover <%= mangaCoverClass %>" src="<%=manga.mangaImagePath%>">
                 </a>
             </div>
-            <div class="manga-info">
-                <div class="manga-info-title">
-                    <a href="/mangas/<%=manga._id %>"><%= getMangaName(manga.title,40)%></a>
-                </div>
+            <div class="manga-info-title">
+                <a href="/mangas/<%=manga._id %>"><%= getMangaName(manga.title,40)%></a>
             </div>
-        </div>      
+        </div>
+    </div>  
 <% }) %>
+</div>      
+

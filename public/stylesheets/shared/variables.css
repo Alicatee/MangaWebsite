@@ -1,6 +1,6 @@
 :root{
-    --container-width: 1400px;
-    --inner-container-width: 1200px;
+    --container-width: 1450px;
+    --inner-container-width: 1400px;
     --color-base-hue: 200;
     --color-danger-hue-offset: 180;
     --color-danger-hue: calc(var(--color-base-hue) - var(--color-danger-hue-offset));
