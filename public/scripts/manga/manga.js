@@ -23,7 +23,13 @@ function validateSize(event){
     const maxSize = 10 * 1024 * 1024 // 10mb
     filesInput.forEach(file => {
         if (file.files[0].size > maxSize){
+            alert('File is too big')
             return event.preventDefault()
         }
     })
 }
+
+function getMangaName(str) {
+    str = str.split(' ').filter( i => i ).join(' ').replace(/ /g, '-')   
+    return str
+ }

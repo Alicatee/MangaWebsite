@@ -15,4 +15,10 @@ const mangaSchema = new mongoose.Schema({
     }
 },{timestamps: true})
 
+mangaSchema.virtual('mangaImagePath').get(function(){
+    return `data:image/${this.image.contentType};base64,
+    ${this.image.data.toString('base64')}`
+})
+
+
 module.exports = mongoose.model('Manga',mangaSchema)

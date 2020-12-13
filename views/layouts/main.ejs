@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="main-css" rel="stylesheet" href="/stylesheets/main.css">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    HEADER
+    
     <% include ('../../helpers/functions.ejs') %>
-    <%- include('../partials/errorMessage.ejs') %>
-    <%- body %>
-    FOOTER
+    <div class="container">
+        <%- include('../partials/header.ejs') %>
+        <div class="inner-container">
+            <%- include('../partials/errorMessage.ejs') %>
+            <%- body %>
+        </div>
+    </div>
 </body>
 </html>

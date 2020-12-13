@@ -4,7 +4,7 @@ const router = express.Router()
 // @desc Index page
 // @route GET / 
 router.get('/',(req,res) => {
-    res.render('index')
+    res.redirect('/mangas')
 })
 
 module.exports = router

@@ -1,9 +1,2 @@
-<div>
-    <% mangas.forEach(manga => { %>
-        <a href="/mangas/<%= manga._id%>"><img class="imgBIG" src="data:image/<%=manga.image.contentType%>;base64,
-            <%=manga.image.data.toString('base64')%>"></a> 
-     <%})%>
-</div>
-<div>
-    <h2><a href="/mangas/add">Add Manga</a></h2>
-</div>
+<%- include('../partials/mangaList.ejs',{mangas, large: false}) %>
+

@@ -46,6 +46,7 @@ router.get('/',async(req,res) => {
            mangas
         })
     } catch (error) {
+        mangaError(true,res)
         console.log(error)
     }
 })
@@ -55,12 +56,11 @@ router.get('/',async(req,res) => {
 // @route GET /manga/add 
 router.get('/add',async(req,res) => {
     try {
-        const pages = await MangaPage.find({})
         res.render('mangas/addManga',{
-           pages,
            manga: new Manga()
         })
     } catch (error) {
+        mangaError(true,res)
         console.log(error)
     }
 })
@@ -76,6 +76,7 @@ router.get('/:id',async(req,res) => {
            mangaChapters
         })
     } catch (error) {
+        res.redirect('/mangas')
         console.log(error)
     }
 })
@@ -85,12 +86,14 @@ router.get('/:id',async(req,res) => {
 // @desc Add Chapter page
 // @route GET /manga/:id/add 
 router.get('/:id/add',async(req,res) => {
+    let manga;
    try {
-       const manga = await Manga.findOne({_id: req.params.id})
+        manga = await Manga.findOne({_id: req.params.id})
        res.render('mangas/addChapter',{
            manga
        })
    } catch (error) {
+        res.redirect('/mangas')
        console.log(error)
    }
 })
@@ -138,6 +141,7 @@ router.post('/',(req,res) => {
                })
             res.redirect(`mangas/${manga._id}`)
         } catch (error) {
+            mangaError(true,res)
             console.log(error)
         }
     })
@@ -157,6 +161,7 @@ router.post('/:id',(req,res) => {
                 })
             }
         } catch (error) {
+            mangaError(true,res)
             res.redirect('/')
         }
        
@@ -177,7 +182,6 @@ router.post('/:id',(req,res) => {
                 manga: req.params.id,
                 chapNumber: chapterNumber
             }) 
-           
             for(const file of files){
                 const img = fs.readFileSync(file.path);
                 const encode_image = img.toString('base64');
@@ -190,24 +194,31 @@ router.post('/:id',(req,res) => {
                     }
                 }
               await MangaPage.create(dataObj)
-          
                fs.unlink((file.path),err => {
                    console.log(err)
                })
             }
-            
              res.redirect(`/mangas/${req.params.id}`)
         } catch (error) {
+            mangaError(true,res)
             console.log(error)
         }
     })
 })
 
-
+/*
 getChapterName = function(str) {
     str = str.split(' ').filter( i => i ).join(' ').replace(/ /g, '-')   
     return str
  }
+*/
+
+ function mangaError(story,res){
+    if(!story){
+        return res.render('error/404')
+    }
+    return res.render('error/500')
+}
 
 
 module.exports = router

@@ -1,6 +1,11 @@
 <% 
- getChapterName = function(str) {
-    str = str.split(' ').filter( i => i ).join(' ').replace(/ /g, '-')   
-    return str
+ getMangaName = function(str,len) {
+  //  str = str.replace(/<(?:.|\n)*?>/gm,'') // strip tags
+        if (str.length > len  && str.length > 0) {
+          let new_str = str + ' '
+          new_str = str.substr(0, len)
+          return new_str + '...'
+        }
+        return str
  }
 %> 
