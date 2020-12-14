@@ -54,3 +54,24 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+img.empty{
+    display: none;
+}
+
+img.loaded{
+    width: var(--manga-cover-width);
+    height: calc(var(--manga-cover-width) / var(--manga-cover-aspect-ratio));
+}
+
+img.loading{
+    width: 120px;
+    height: 100px;
+    content: url('../../images/loading.gif');
+}
+
+img.failed{
+    width: 120px;
+    height: 100px;
+    content: url('../../images/fail.png');
+}

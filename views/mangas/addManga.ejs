@@ -1,16 +1,4 @@
 <form action="/mangas" method="POST" onsubmit="validateSize(event)" enctype="multipart/form-data">
-    <div>
-        <label for="title">Manga Title</label>
-        <input type="text" name="title" id="title"  value="<%= manga.title %>" accept="image/*" required>
-    </div>
-    <div>
-        <textarea type="text" name="desc"  value="<%= manga.desc %>"  id="desc">Description</textarea>
-    </div>
-    <div>
-        <label for="images">Upload Image</label>
-        <input type="file" class="images" name="images" value=""  required>
-    </div>
-    <button type="submit">Submit</button>
+    <%-include('_form_fields.ejs')%>
 </form>
-</div>
 <script src="/scripts/manga/manga.js"></script>

@@ -1,0 +1,29 @@
+<div class="">
+    <label for="title">Manga Title</label>
+    <input type="text" name="title" id="title"  value="<%= manga.title %>" required>
+</div>
+<div>
+    <textarea type="text" name="desc"  value="<%= manga.desc %>"  id="desc">Description</textarea>
+</div>
+<div>
+    <label for="images">Upload Image</label>
+    <input type="file" class="images" name="images" value="" onchange="addMangaImagePreview(event)"  required>
+</div>
+<div>
+    <img alt="" id="imageOutput" class="empty">
+</div>
+<button type="submit">Submit</button>
+
+<!--
+
+<div class="form-row">
+    <div class="form-item">
+        <label for="title">Manga Title</label>
+        <input type="text" name="title" id="title"  value="<%= manga.title %>" required>
+    </div>
+    <div class="form-item">
+
+    </div>
+</div>
+
+-->

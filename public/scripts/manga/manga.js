@@ -33,3 +33,23 @@ function getMangaName(str) {
     str = str.split(' ').filter( i => i ).join(' ').replace(/ /g, '-')   
     return str
  }
+
+ function addMangaImagePreview(event){
+    const file = event.target.files[0]
+    const output = document.getElementById('imageOutput')
+    output.removeAttribute('class')
+    if(file.type !== "image/png" &&
+    file.type !== "image/jpg" &&
+    file.type !== "image/jpeg"){
+        return output.classList.add('failed')
+    }
+    output.classList.add('loading')
+    output.src = URL.createObjectURL(file);
+    output.onload = function(){
+        output.classList.remove('loading')
+        output.classList.add('loaded')
+        URL.revokeObjectURL(output.src)
+    }
+ }
+
+ 
