@@ -41,7 +41,7 @@ const upload = multer({
 // @route GET /manga/ 
 router.get('/',async(req,res) => {
     try {
-        const mangas = await Manga.find().sort({createdAt: 'desc'}).limit(10).exec()
+        const mangas = await Manga.find().sort({createdAt: 'desc'}).limit(100).exec()
         res.render('mangas/index',{
            mangas
         })
@@ -63,6 +63,46 @@ router.get('/add',async(req,res) => {
         mangaError(true,res)
         console.log(error)
     }
+})
+
+router.get('/addTemplate',async(req,res) => {
+    try {
+        const img = fs.readFileSync(path.join(__dirname,'..','placeholders','capamanga.jpg'));
+        const encode_image = img.toString('base64');
+       const manga = await Manga.create({
+            title: 'Shingeki',
+            desc: 'Description',
+            image: {
+                data:  Buffer.from(encode_image, 'base64'),
+                contentType: 'image/jpg',
+            }
+        })
+      const chapter = await MangaChapter.create({
+            title: 'chapter-1',
+            manga: manga.id,
+            image: {
+                data:  Buffer.from(encode_image, 'base64'),
+                contentType: 'image/jpg',
+            }
+        })
+        const page = await MangaPage.create({
+            chapter: chapter.id,
+            image: {
+                data:  Buffer.from(encode_image, 'base64'),
+                contentType: 'image/jpg',
+            }
+        })
+        res.redirect('/mangas')
+    } catch (error) {
+        console.log(error)
+    }   
+})
+
+router.get('/removeAllData',async(req,res) => {
+   await Manga.deleteMany({})
+   await MangaChapter.deleteMany({})
+   await MangaPage.deleteMany({})
+   res.redirect('/mangas')
 })
 
 // @desc Single Manga page
@@ -148,6 +188,7 @@ router.post('/',(req,res) => {
 })
 
 
+
 // @desc Post Chapter
 // @route POST /manga/:id
 router.post('/:id',(req,res) => {
@@ -204,6 +245,19 @@ router.post('/:id',(req,res) => {
             console.log(error)
         }
     })
+})
+
+// @desc Delete Chapter
+// @route Delete /mangas/:id
+router.delete('/:id',async(req,res) => {
+    try {
+        const manga = await Manga.findOne({_id: req.params.id})
+       await manga.remove()
+       res.redirect('/mangas')
+    } catch (error) {
+        console.log(error)
+        res.redirect('/mangas')
+    }
 })
 
 /*

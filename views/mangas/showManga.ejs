@@ -3,6 +3,7 @@
 </div>
     <div>
         <h2><%= manga.title%></h2>
+        <%- include('../partials/deleteForm',{url: `/mangas/${manga.id}`})%>
     </div>
     <div>
         <h2><%= manga.desc%></h2>

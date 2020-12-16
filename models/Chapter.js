@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mangaPage = require('./Page')
 
 const chapterSchema = new mongoose.Schema({
 
@@ -19,5 +20,16 @@ const chapterSchema = new mongoose.Schema({
         default: 1
     }
 },{timestamps: true})
+
+chapterSchema.pre('remove',function(next){
+    mangaPage.deleteMany({chapter: this.id},(err) => {
+        if(err){
+            console.log(err)
+            next(err)
+        }
+        next()
+    })
+})
+
 
 module.exports = mongoose.model('Chapter',chapterSchema)
