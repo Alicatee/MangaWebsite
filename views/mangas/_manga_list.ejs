@@ -1,6 +1,7 @@
 <% include ('../../helpers/functions.ejs') %>
 <% mangaCoverClass = locals.large ? 'manga-cover-large' : '' %>
 <% bookGridClass = locals.large ? 'manga-grid-large' : '' %>
+
 <div class="manga-grid <%= bookGridClass %>">
 <% mangas.forEach(manga => { %>
     <div class="manga-container">

@@ -1,0 +1,22 @@
+.load-more-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+}
+
+#load-more-btn{
+    width: 50%;
+    height: 44px;
+    background-color: var(--color-background-light);
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    font-family: 'Gotham Rounded';
+    font-size: 1rem;
+    color: var(--color-text-light);
+}
+
+#load-more-btn.disabled{
+    opacity: 0.5;
+}

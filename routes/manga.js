@@ -11,6 +11,8 @@ const Manga = require('../models/Manga')
 const MangaChapter = require('../models/Chapter')
 const MangaPage = require('../models/Page')
 
+const loadLimit = 12
+
 const storage = multer.diskStorage({
     destination: (req,file,cb) => {
         cb(null,path.join(__dirname,'../uploads'))
@@ -41,7 +43,7 @@ const upload = multer({
 // @route GET /manga/ 
 router.get('/',async(req,res) => {
     try {
-        const mangas = await Manga.find().sort({createdAt: 'desc'}).limit(100).exec()
+        const mangas = await Manga.find().sort({createdAt: 'desc'}).limit(loadLimit).exec()
         res.render('mangas/index',{
            mangas
         })
@@ -103,6 +105,17 @@ router.get('/removeAllData',async(req,res) => {
    await MangaChapter.deleteMany({})
    await MangaPage.deleteMany({})
    res.redirect('/mangas')
+})
+
+router.get('/loadMore',async(req,res) => {
+    try {
+        const skipNumb = parseInt(req.query.skip)
+        const mangas = await Manga.find({}).sort({createdAt: 'desc'}).skip(skipNumb).limit(loadLimit).lean()
+        res.send(mangas)
+        res.end();
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 // @desc Single Manga page
@@ -273,6 +286,8 @@ getChapterName = function(str) {
     }
     return res.render('error/500')
 }
+
+
 
 
 module.exports = router

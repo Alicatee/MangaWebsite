@@ -6,11 +6,11 @@
     <textarea type="text" name="desc"  value="<%= manga.desc %>"  id="desc">Description</textarea>
 </div>
 <div>
-    <label for="images">Upload Image</label>
-    <input type="file" class="images" name="images" value="" onchange="addMangaImagePreview(event)"  required>
-</div>
-<div>
-    <img alt="" id="imageOutput" class="empty">
+    <label for="images" class="image-label">Upload Image</label>
+    <input type="file" id="images"  name="images" value="" onchange="addMangaImagePreview(event)"  required>
+    <div class="image-box">
+        <img alt="" id="imageOutput">
+    </div>
 </div>
 <button type="submit">Submit</button>
 
