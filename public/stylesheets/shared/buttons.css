@@ -5,6 +5,7 @@
     margin: 50px;
 }
 
+
 #load-more-btn{
     width: 50%;
     height: 44px;
@@ -16,6 +17,11 @@
     font-size: 1rem;
     color: var(--color-text-light);
 }
+
+#load-more-btn:hover{
+    background-color: var(--color-background-dark)
+}
+
 
 #load-more-btn.disabled{
     opacity: 0.5;

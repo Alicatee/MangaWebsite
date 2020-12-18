@@ -45,7 +45,8 @@ router.get('/',async(req,res) => {
     try {
         const mangas = await Manga.find().sort({createdAt: 'desc'}).limit(loadLimit).exec()
         res.render('mangas/index',{
-           mangas
+           mangas,
+           mangaSearch: true,
         })
     } catch (error) {
         mangaError(true,res)
