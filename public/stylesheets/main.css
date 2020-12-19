@@ -6,7 +6,7 @@
 
 :root{
     font-family: 'Gotham Rounded';
-    font-size: 20px;
+    font-size: 10px;
     color: var(--color-text-light);
 }
 
@@ -21,7 +21,7 @@ body{
 .container{
     max-width: var(--container-width);
     margin: auto;
-    margin-bottom: 3rem;
+    margin-bottom: 6rem;
 }
 
 .inner-container{

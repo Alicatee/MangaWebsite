@@ -1,8 +1,8 @@
 :root{
-    --manga-cover-width: 200px;
-    --manga-cover-width-large: 250px;
+    --manga-cover-width: 20rem;
+    --manga-cover-width-large: 25rem;
     --manga-cover-aspect-ratio: 0.75;
-    --manga-page-width: 500px;
+    --manga-page-width: 50rem;
     --manga-info-title-weight: bold;
     --form-input-background-color: hsl(var(--color-base-hue), 100%, 31%);
     --form-input-border-color: hsl(var(--color-base-hue), 100%, 50%);
@@ -32,12 +32,16 @@
 .manga-grid{
     display: grid;
     justify-content: center;
-    grid-gap: 2rem;
+    grid-gap: 4rem;
     grid-template-columns: repeat(auto-fill, var(--manga-cover-width));
 }
 
 .manga-grid-large{
     grid-template-columns: repeat(auto-fill, var(--manga-cover-width-large));
+}
+
+.manga-info-title{
+    padding: 0.5rem;
 }
   
 .manga-info-title a{
@@ -45,6 +49,7 @@
     color: var(--color-text-light);
     font-weight: var(--manga-info-title-weight);
     word-break: break-all;
+    font-size: 2rem;
 }
 
 .manga-info-title a:hover{

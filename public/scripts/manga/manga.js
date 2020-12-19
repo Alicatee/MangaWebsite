@@ -1,3 +1,6 @@
+
+
+
 function addPageField(){
     const container = document.querySelector("#upload-container")
     const fieldsContainer = document.querySelectorAll(".upload-file")
@@ -29,10 +32,17 @@ function validateSize(event){
     })
 }
 
-function getMangaName(str) {
-    str = str.split(' ').filter( i => i ).join(' ').replace(/ /g, '-')   
-    return str
- }
+ function getSmallString(str,len) {
+    //  str = str.replace(/<(?:.|\n)*?>/gm,'') // strip tags
+          if (str.length > len  && str.length > 0) {
+            let new_str = str + ' '
+            new_str = str.substr(0, len)
+            return new_str + '...'
+          }
+          return str
+   }
+
+
 
  function addMangaImagePreview(event){
     const file = event.target.files[0]
@@ -76,11 +86,11 @@ function getMangaName(str) {
                         </a>
                     </div>
                     <div class="manga-info-title">
-                        <a href="/mangas/${manga._id}">${getMangaName(manga.title,40)}</a>
+                        <a href="/mangas/${manga._id}">${getSmallString(manga.title,40)}</a>
                     </div>
                 </div>
             </div>  
-                `
+                ` 
             })
             loadMoreButton.classList.remove('disabled')
         }else{
@@ -92,3 +102,49 @@ function getMangaName(str) {
      loadMoreButton.classList.add('disabled')
  }
 
+ const searchResultsContainer = document.querySelector('.search-result-container')
+ const searchInput = document.getElementById('search-input')
+ const searchButton = document.querySelector('.search-button')
+
+searchButton.addEventListener('click',() => {
+    if(searchInput.classList.contains('active')){
+        searchInput.classList.remove('active')
+        searchResultsContainer.classList.remove('active')
+        searchInput.value = ''
+    }else{
+        searchInput.classList.add('active')
+    }
+})
+
+ searchInput.addEventListener('input',(event) => {
+    if(searchInput.value == ''){
+         return  searchResultsContainer.classList.remove('active')
+    }
+    const xhr = new XMLHttpRequest()
+    xhr.responseType = "json"
+    
+    xhr.onload = function(){
+        if (this.status !== 200) return console.warn('Something Went Wrong')
+        searchResultsContainer.innerHTML = ''
+        searchResultsContainer.classList.add('active')
+        const mangas = xhr.response
+
+        mangas.forEach(manga => {
+            searchResultsContainer.innerHTML += `
+             <div class="search-result">
+                   <div class="search-result-image">
+                      <img src="data:image/${manga.image.contentType};base64,
+                      ${manga.image.data.toString('base64')}" alt="">
+                   </div>
+                    <div class="search-result-info">
+                        <h2>${manga.title}</h2>
+                        <p>${getSmallString(manga.desc,90)} </p>
+                    </div>  
+            </div>
+            `
+        })
+    }
+
+    xhr.open('get',`/mangas/searchManga?q=${searchInput.value}`)
+    xhr.send()
+ })

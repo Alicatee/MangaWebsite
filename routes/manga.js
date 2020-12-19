@@ -12,6 +12,7 @@ const MangaChapter = require('../models/Chapter')
 const MangaPage = require('../models/Page')
 
 const loadLimit = 12
+const searchLimit = 3
 
 const storage = multer.diskStorage({
     destination: (req,file,cb) => {
@@ -117,6 +118,19 @@ router.get('/loadMore',async(req,res) => {
     } catch (error) {
         console.log(error)
     }
+})
+
+router.get('/searchManga',async(req,res) => {
+   try {
+       const title = req.query.q
+       let query = Manga.find().lean()
+       query = query.regex('title', new RegExp(title,'i'))
+       const mangas = await query.limit(searchLimit).exec()
+       res.send(mangas)
+       res.end()
+   } catch (error) {
+       console.log(error)
+   }
 })
 
 // @desc Single Manga page

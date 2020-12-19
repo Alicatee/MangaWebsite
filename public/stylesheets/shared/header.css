@@ -1,5 +1,5 @@
 :root{
-    --nav-title-font-size: 3rem;
+    --nav-title-font-size: 6rem;
     --nav-title-font-weight: bold;
     --nav-link-font-weight: 300;
 }
@@ -19,7 +19,7 @@
 }
 
 .page-header{
-    font-size: 2rem;
+    font-size: 4rem;
     font-weight: 500;
 }
 
@@ -37,7 +37,8 @@
     text-decoration: none;
     color: var(--color-text-light);
     font-weight: var(--nav-link-font-weight);
-    padding: 1rem;
+    padding: 2rem;
+    font-size: 2rem;
 }
 
 .header-nav li a:hover, .header-title:hover{
@@ -45,7 +46,8 @@
 }
 
 .search-container{
-    margin-bottom: 2rem;
+    z-index: 999;
+    margin-bottom: 5rem;
     position: relative;
 }
 
@@ -56,45 +58,70 @@
 }
 
 .search-result-container{
-    width: 450px;
+    display: none;
+}
+
+.search-result-container.active{
+    width: 45rem;
     height: auto;
     background-color: var(--color-background-dark);
     display: flex;
     flex-direction: column;   
     position: absolute;
-    right: 50px;
+    right: 5rem;
 }
 
 .search-result{
     display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: flex-start;
 }
 
+
+
+
 .search-button{
-    width: 50px;
-    height: 50px;
+    width: 5rem;
+    height: 5rem;
     background: url('../../images/search-icon.png');
     background-position: center;
     background-size: contain;
-    cursor: pointer;
+    cursor: pointer; 
     border: 0;
     outline: 0;
 }
 
-.search-input{
-    width: 450px;
-    height: 35px;
-    border-radius: 225px;
+#search-input{
+    display: none;
+}
+
+#search-input.active{
+    display: inline-block;
+    width: 45rem;
+    height: 3.5rem;
+    border-radius: 22.5rem;
     outline: 0;
     border: 0;
 }
 
-.search-result-image{
-    width: 180px;
+
+
+.search-result-image img{
+    width: 15rem;
 }
 
-.search-result-title{
-    font-size: 1.2rem;
+.search-result-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result-info h2{
+    font-size: 2.4rem;
+    padding: 1rem;
+}
+
+.search-result-info p{
+    font-size: 2rem;
+    margin: 0;
+    padding: 0 1rem;
+    word-break: break-all;
 }
