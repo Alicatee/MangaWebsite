@@ -97,7 +97,7 @@ function validateSize(event){
              console.warn('Something Went Wrong')
          }
      }
-     xhr.open('get',`/mangas/loadMore?skip=${mangasNumb}`)
+     xhr.open('get',`/mangas/loadMore?skip=${mangasNumb}&q=${getParam('q')}`)
      xhr.send()
      loadMoreButton.classList.add('disabled')
  }
@@ -117,14 +117,12 @@ searchButton.addEventListener('click',() => {
 })
 
  searchInput.addEventListener('input',(event) => {
-    if(searchInput.value == ''){
-         return  searchResultsContainer.classList.remove('active')
-    }
     const xhr = new XMLHttpRequest()
     xhr.responseType = "json"
     
     xhr.onload = function(){
         if (this.status !== 200) return console.warn('Something Went Wrong')
+        if(xhr.response.length <= 0 || searchInput.value == '') return searchResultsContainer.classList.remove('active')
         searchResultsContainer.innerHTML = ''
         searchResultsContainer.classList.add('active')
         const mangas = xhr.response
@@ -148,3 +146,8 @@ searchButton.addEventListener('click',() => {
     xhr.open('get',`/mangas/searchManga?q=${searchInput.value}`)
     xhr.send()
  })
+
+
+ function getParam(param){
+   return new URLSearchParams(window.location.search).get(param)
+ }

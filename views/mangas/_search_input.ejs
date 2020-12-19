@@ -1,11 +1,13 @@
-<% if(locals.mangaSearch != null) { %>
-    <div class="search-container">
-        <div class="search-input-container">
-            <input autocomplete='off' type="text" id="search-input">
-            <button class="search-button"></button>
-        </div>
-            <div class="search-result-container">
-                
+     <form action="/mangas" method="GET">
+        <div class="search-container">
+            <div class="search-input-container">
+                <input autocomplete='off' type="text" id="search-input" name="q">
+                <button class="search-button" type="button"></button>
             </div>
-    </div>
-<% } %>
+                <div class="search-result-container">
+                    
+                </div>
+        </div>    
+    </form>
+    
+    

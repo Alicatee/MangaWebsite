@@ -11,8 +11,8 @@ const Manga = require('../models/Manga')
 const MangaChapter = require('../models/Chapter')
 const MangaPage = require('../models/Page')
 
-const loadLimit = 12
-const searchLimit = 3
+const loadLimit = 24
+const searchLimit = 20
 
 const storage = multer.diskStorage({
     destination: (req,file,cb) => {
@@ -44,10 +44,13 @@ const upload = multer({
 // @route GET /manga/ 
 router.get('/',async(req,res) => {
     try {
-        const mangas = await Manga.find().sort({createdAt: 'desc'}).limit(loadLimit).exec()
+        let query = Manga.find().sort({createdAt: 'desc'}).limit(loadLimit)
+        if(req.query.q !== null){
+            query = query.regex('title', new RegExp(req.query.q,'i'))
+        }
+     const mangas = await query.exec() // ARRUMAR LOAD MORE QUE CARREGA TUDO MESMO COM PENQUISA OU REMOVER ELE QUANDO TIVER EM BUSCA
         res.render('mangas/index',{
-           mangas,
-           mangaSearch: true,
+           mangas
         })
     } catch (error) {
         mangaError(true,res)
@@ -112,7 +115,11 @@ router.get('/removeAllData',async(req,res) => {
 router.get('/loadMore',async(req,res) => {
     try {
         const skipNumb = parseInt(req.query.skip)
-        const mangas = await Manga.find({}).sort({createdAt: 'desc'}).skip(skipNumb).limit(loadLimit).lean()
+        let query =  Manga.find().sort({createdAt: 'desc'}).skip(skipNumb).limit(loadLimit).lean()
+        if(req.query.q !== null){
+           query = query.regex('title', new RegExp(req.query.q,'i'))
+        }
+        const mangas = await query.exec()
         res.send(mangas)
         res.end();
     } catch (error) {

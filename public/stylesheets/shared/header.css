@@ -63,7 +63,8 @@
 
 .search-result-container.active{
     width: 45rem;
-    height: auto;
+    height: 45rem;
+    overflow: auto;
     background-color: var(--color-background-dark);
     display: flex;
     flex-direction: column;   
@@ -125,3 +126,4 @@
     padding: 0 1rem;
     word-break: break-all;
 }
+
