@@ -8,6 +8,9 @@ const mangaSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    alternTitle:{
+        type: String
+    },
     desc: {
         type: String,
     },

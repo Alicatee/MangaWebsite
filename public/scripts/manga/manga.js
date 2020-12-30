@@ -23,9 +23,10 @@ function deletePageField(event){
 
 function validateSize(event){
     const filesInput = document.querySelectorAll('.images')
-    const maxSize = 10 * 1024 * 1024 // 10mb
+    const maxSize = 5 * 1024 * 1024 // 10mb
     filesInput.forEach(file => {
         if (file.files[0].size > maxSize){
+            console.log('oi')
             alert('File is too big')
             return event.preventDefault()
         }
@@ -107,6 +108,7 @@ function validateSize(event){
  const searchButton = document.querySelector('.search-button')
 
 searchButton.addEventListener('click',() => {
+    console.log('fired')
     if(searchInput.classList.contains('active')){
         searchInput.classList.remove('active')
         searchResultsContainer.classList.remove('active')
@@ -131,12 +133,12 @@ searchButton.addEventListener('click',() => {
             searchResultsContainer.innerHTML += `
              <div class="search-result">
                    <div class="search-result-image">
-                      <img src="data:image/${manga.image.contentType};base64,
-                      ${manga.image.data.toString('base64')}" alt="">
+                      <a href="/mangas/${manga._id}"><img src="data:image/${manga.image.contentType};base64,
+                      ${manga.image.data.toString('base64')}" alt=""></a>
                    </div>
                     <div class="search-result-info">
-                        <h2>${manga.title}</h2>
-                        <p>${getSmallString(manga.desc,90)} </p>
+                    <a href="/mangas/${manga._id}"><h2>${manga.title}</h2></a>
+                     <p>${getSmallString(manga.desc,90)} </p>
                     </div>  
             </div>
             `

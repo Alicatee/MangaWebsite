@@ -79,7 +79,7 @@
     height: calc(var(--manga-cover-width) / var(--manga-cover-aspect-ratio));
 }
 
-#images{
+#mangaCoverInput{
     display: none;
 }
 

@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage,
-   limits: {fileSize: 5 * 1024 * 1024},
+    limits: {fileSize: 5 * 1024 * 1024},
     fileFilter: function (req, file, cb) {
         if (
             file.mimetype === "image/png" ||
@@ -48,7 +48,7 @@ router.get('/',async(req,res) => {
         if(req.query.q !== null){
             query = query.regex('title', new RegExp(req.query.q,'i'))
         }
-     const mangas = await query.exec() // ARRUMAR LOAD MORE QUE CARREGA TUDO MESMO COM PENQUISA OU REMOVER ELE QUANDO TIVER EM BUSCA
+     const mangas = await query.exec() 
         res.render('mangas/index',{
            mangas
         })
@@ -78,6 +78,7 @@ router.get('/addTemplate',async(req,res) => {
         const encode_image = img.toString('base64');
        const manga = await Manga.create({
             title: 'Shingeki',
+            alternTitle: 'Attack on Titan',
             desc: 'Description',
             image: {
                 data:  Buffer.from(encode_image, 'base64'),
@@ -128,17 +129,17 @@ router.get('/loadMore',async(req,res) => {
 })
 
 router.get('/searchManga',async(req,res) => {
-   try {
        const title = req.query.q
-       let query = Manga.find().lean()
-       query = query.regex('title', new RegExp(title,'i'))
-       const mangas = await query.limit(searchLimit).exec()
+       const mangas = await Manga.find({"$or": [
+        { 'title': { '$regex': title, '$options': 'i' } },
+        {'alternTitle': {'$regex': title, '$options': 'i'} }
+    ]   },function(err,manga){  
+            if(err) return console.log(err)    
+        }).lean().limit(searchLimit)
        res.send(mangas)
        res.end()
-   } catch (error) {
-       console.log(error)
-   }
 })
+
 
 // @desc Single Manga page
 // @route GET /manga/:id 
@@ -203,6 +204,7 @@ router.post('/',(req,res) => {
             const encode_image = img.toString('base64');
                 const dataObj = {
                     title: req.body.title,
+                    alternTitle: req.body.alternTitle,
                     desc: req.body.desc,
                     image: {
                         data:  Buffer.from(encode_image, 'base64'),
@@ -313,3 +315,4 @@ getChapterName = function(str) {
 
 
 module.exports = router
+

@@ -2,7 +2,12 @@
     <img class="manga-cover" src="<%=manga.mangaImagePath%>">
 </div>
     <div>
-        <h2><%= manga.title%></h2>
+        <h2>Title: <%= manga.title%></h2>
+    </div>
+    <div>
+        <h2>Alternative Titles: <%= manga.alternTitle%></h2>
+    </div>
+    <div class="">
         <%- include('../partials/deleteForm',{url: `/mangas/${manga.id}`})%>
     </div>
     <div>
