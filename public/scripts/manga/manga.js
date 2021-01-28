@@ -151,5 +151,9 @@ searchButton.addEventListener('click',() => {
 
 
  function getParam(param){
-   return new URLSearchParams(window.location.search).get(param)
+     const value =  new URLSearchParams(window.location.search).get(param)
+    if(value){
+        return value
+    }
+    return 'none'
  }
