@@ -7,4 +7,4 @@
 
 - First of all, run ```npm i``` to install all the node dependencies
 - Go to ***config/config.env*** and put your mongodb connection url there
--  Start the bot using ```npm start```
+-  Start the website using ```npm start```
