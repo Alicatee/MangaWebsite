@@ -72,46 +72,46 @@ router.get('/add',async(req,res) => {
     }
 })
 
-router.get('/addTemplate',async(req,res) => {
-    try {
-        const img = fs.readFileSync(path.join(__dirname,'..','placeholders','capamanga.jpg'));
-        const encode_image = img.toString('base64');
-       const manga = await Manga.create({
-            title: 'Shingeki',
-            alternTitle: 'Attack on Titan',
-            desc: 'Description',
-            image: {
-                data:  Buffer.from(encode_image, 'base64'),
-                contentType: 'image/jpg',
-            }
-        })
-      const chapter = await MangaChapter.create({
-            title: 'chapter-1',
-            manga: manga.id,
-            image: {
-                data:  Buffer.from(encode_image, 'base64'),
-                contentType: 'image/jpg',
-            }
-        })
-        const page = await MangaPage.create({
-            chapter: chapter.id,
-            image: {
-                data:  Buffer.from(encode_image, 'base64'),
-                contentType: 'image/jpg',
-            }
-        })
-        res.redirect('/mangas')
-    } catch (error) {
-        console.log(error)
-    }   
-})
+// router.get('/addTemplate',async(req,res) => {
+//     try {
+//         const img = fs.readFileSync(path.join(__dirname,'..','placeholders','capamanga.jpg'));
+//         const encode_image = img.toString('base64');
+//        const manga = await Manga.create({
+//             title: 'Shingeki',
+//             alternTitle: 'Attack on Titan',
+//             desc: 'Description',
+//             image: {
+//                 data:  Buffer.from(encode_image, 'base64'),
+//                 contentType: 'image/jpg',
+//             }
+//         })
+//       const chapter = await MangaChapter.create({
+//             title: 'chapter-1',
+//             manga: manga.id,
+//             image: {
+//                 data:  Buffer.from(encode_image, 'base64'),
+//                 contentType: 'image/jpg',
+//             }
+//         })
+//         const page = await MangaPage.create({
+//             chapter: chapter.id,
+//             image: {
+//                 data:  Buffer.from(encode_image, 'base64'),
+//                 contentType: 'image/jpg',
+//             }
+//         })
+//         res.redirect('/mangas')
+//     } catch (error) {
+//         console.log(error)
+//     }   
+// })
 
-router.get('/removeAllData',async(req,res) => {
-   await Manga.deleteMany({})
-   await MangaChapter.deleteMany({})
-   await MangaPage.deleteMany({})
-   res.redirect('/mangas')
-})
+// router.get('/removeAllData',async(req,res) => {
+//    await Manga.deleteMany({})
+//    await MangaChapter.deleteMany({})
+//    await MangaPage.deleteMany({})
+//    res.redirect('/mangas')
+// })
 
 router.get('/loadMore',async(req,res) => {
     try {
@@ -173,6 +173,13 @@ router.get('/:id/add',async(req,res) => {
        console.log(error)
    }
 })
+
+// @desc Edit Chapter
+// @route Edit /mangas/:id/edit
+router.get("/:id/edit",(req,res) => {
+    res.render("mangas/edit.ejs")
+})
+
 
 //@desc Chapter Page
 // @route GET /manga/:mangaID/chapterName
@@ -310,7 +317,6 @@ getChapterName = function(str) {
     }
     return res.render('error/500')
 }
-
 
 
 
